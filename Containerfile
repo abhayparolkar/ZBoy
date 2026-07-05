@@ -28,17 +28,18 @@ RUN apt-get update \
       libsqlite3-dev \
       sqlite3 \
       curl \
+      libpq-dev \
+      postgresql-client \
  && rm -rf /var/lib/apt/lists/*
 
-# Install latest stable Ruby via ruby-build to /usr/local
+# Install Ruby 3.4.10 via ruby-build to /usr/local
 RUN git clone --depth 1 https://github.com/rbenv/ruby-build.git /tmp/ruby-build \
  && /tmp/ruby-build/install.sh \
- && RUBY_VERSION=$(ruby-build --definitions | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1) \
- && ruby-build "$RUBY_VERSION" /usr/local \
+ && ruby-build 3.4.10 /usr/local \
  && rm -rf /tmp/ruby-build
 
-# Install latest Rails
-RUN gem install rails
+# Install Rails and pg gem
+RUN gem install rails pg
 
 RUN npm install -g @earendil-works/pi-coding-agent
 
