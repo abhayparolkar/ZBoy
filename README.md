@@ -58,7 +58,8 @@ The full step-by-step walkthrough is the article **[`en-pi-apple-container.md`](
 ├── pi-config/
 │   ├── AGENTS.md                   # global agent rules (container variant)
 │   ├── models.json                 # provider + model definition (oMLX)
-│   ├── settings.json               # pi runtime settings
+│   ├── settings.json               # pi runtime settings + package list
+│   ├── npm/                        # extension packages (npm-installed)
 │   └── extensions/
 │       └── protected-paths/
 │           └── index.ts            # tool-call guardrail for sensitive paths
@@ -114,6 +115,42 @@ Loaded into every session: runs in a container, host not directly reachable, fil
 ### Extension — `protected-paths`
 
 Hooks pi's `tool_call` event and forces confirmation (or hard-denies) for sensitive paths (`~/.ssh`, `~/.aws`, `.env`, `credentials.json`, `*.pem`, etc.). Defense-in-depth for the day someone widens a mount.
+
+### Messenger bridge — `pi-messenger-bridge`
+
+Bridges common messengers (Telegram, WhatsApp, Slack, Discord, Matrix) into pi so remote users can interact with the agent from their phone or chat app.
+
+**Installed as an npm extension** — listed in `pi-config/settings.json` under `packages` and installed in `pi-config/npm/`. No changes to the Containerfile are needed; the package is picked up at runtime from the mounted config volume.
+
+#### Supported transports
+
+| Transport | Setup |
+|---|---|
+| **Telegram** | Create a bot via [@BotFather](https://t.me/BotFather), set `PI_TELEGRAM_TOKEN` |
+| **WhatsApp** | Run `/msg-bridge configure whatsapp`, scan QR code |
+| **Slack** | Create a Socket Mode app, set `PI_SLACK_BOT_TOKEN` + `PI_SLACK_APP_TOKEN` |
+| **Discord** | Create a bot in the [Developer Portal](https://discord.com/developers/applications), enable Message Content Intent, set `PI_DISCORD_TOKEN` |
+| **Matrix** | Register a bot account, set `PI_MATRIX_HOMESERVER` + `PI_MATRIX_ACCESS_TOKEN` |
+
+#### Usage
+
+```bash
+# Interactive setup menu (inside a pi session)
+/msg-bridge
+
+# Configure a specific transport
+/msg-bridge configure telegram
+
+# Connect to all configured transports
+/msg-bridge connect
+
+# Check status
+/msg-bridge status
+```
+
+Credentials can be set via environment variables (prefixed `PI_*`) or stored in `~/.pi/msg-bridge.json`. Environment variables take precedence. New users authenticate via a 6-digit challenge code displayed in the pi terminal.
+
+See the [pi-messenger-bridge README](https://github.com/tintinweb/pi-messenger-bridge) for full documentation.
 
 ## Troubleshooting
 

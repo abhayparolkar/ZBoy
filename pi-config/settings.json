@@ -1,0 +1,8 @@
+{
+  "lastChangelogVersion": "0.80.3",
+  "theme": "dark",
+  "packages": [
+    "npm:pi-agent-browser-native",
+    "npm:pi-messenger-bridge"
+  ]
+}
