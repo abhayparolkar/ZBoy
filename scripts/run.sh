@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Starts pi in an Apple container.
 #
-# Expects two mounts:
-#   - pi-config/    -> /home/pi/.pi/agent  (provider config, AGENTS.md, extensions)
+# Expects mounts:
+#   - pi-config/{settings.json,models.json,AGENTS.md,extensions/,bin/,sessions/}
+#       -> /home/pi/.pi/agent/...          (provider config, extensions, sessions)
 #   - $PROJECT_DIR  -> /workspace          (the project to work on)
+#   The image's pre-installed npm/ (linux/arm64 native modules) is NOT shadowed.
 #
 # Example:
 #   PROJECT_DIR=~/projects/small-test-repo ./scripts/run.sh --model mlx-local/qwen3-coder
@@ -23,7 +25,12 @@ container run \
   --rm \
   --interactive \
   --tty \
-  --volume "$REPO_ROOT/pi-config:/home/pi/.pi/agent" \
+  --volume "$REPO_ROOT/pi-config/settings.json:/home/pi/.pi/agent/settings.json" \
+  --volume "$REPO_ROOT/pi-config/models.json:/home/pi/.pi/agent/models.json" \
+  --volume "$REPO_ROOT/pi-config/AGENTS.md:/home/pi/.pi/agent/AGENTS.md" \
+  --volume "$REPO_ROOT/pi-config/extensions:/home/pi/.pi/agent/extensions" \
+  --volume "$REPO_ROOT/pi-config/bin:/home/pi/.pi/agent/bin" \
+  --volume "$REPO_ROOT/pi-config/sessions:/home/pi/.pi/agent/sessions" \
   --volume "$PROJECT_DIR:/workspace" \
   --workdir /workspace \
   "$IMAGE_TAG" \

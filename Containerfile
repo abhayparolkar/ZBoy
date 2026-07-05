@@ -59,6 +59,14 @@ RUN userdel --remove node 2>/dev/null || true \
  && groupadd --gid ${PI_GID} pi \
  && useradd --uid ${PI_UID} --gid ${PI_GID} --create-home --shell /bin/bash pi
 
+# Pre-install pi extensions with linux/arm64 native modules.
+# The host's pi-config/npm/node_modules have darwin binaries; installing
+# inside the container ensures the correct architecture for native deps.
+RUN mkdir -p /home/pi/.pi/agent/npm
+COPY pi-config/npm/package.json /home/pi/.pi/agent/npm/package.json
+RUN cd /home/pi/.pi/agent/npm && npm install --omit=dev \
+ && chown -R pi:pi /home/pi/.pi
+
 USER pi
 WORKDIR /workspace
 
