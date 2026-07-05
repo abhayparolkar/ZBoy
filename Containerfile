@@ -12,9 +12,43 @@ RUN apt-get update \
       ripgrep \
       ca-certificates \
       iproute2 \
+      chromium \
+      ffmpeg \
+      build-essential \
+      autoconf \
+      bison \
+      patch \
+      libssl-dev \
+      libyaml-dev \
+      libreadline-dev \
+      zlib1g-dev \
+      libffi-dev \
+      libgdbm-dev \
+      libncurses-dev \
+      libsqlite3-dev \
+      sqlite3 \
+      curl \
  && rm -rf /var/lib/apt/lists/*
 
+# Install latest stable Ruby via ruby-build to /usr/local
+RUN git clone --depth 1 https://github.com/rbenv/ruby-build.git /tmp/ruby-build \
+ && /tmp/ruby-build/install.sh \
+ && RUBY_VERSION=$(ruby-build --definitions | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1) \
+ && ruby-build "$RUBY_VERSION" /usr/local \
+ && rm -rf /tmp/ruby-build
+
+# Install latest Rails
+RUN gem install rails
+
 RUN npm install -g @earendil-works/pi-coding-agent
+
+# Browser agent: agent-browser CLI + system Chromium (no Chrome-for-Testing on ARM64)
+RUN npm install -g agent-browser
+
+# Ruby LSP: enables pi-agent to be Ruby-aware
+RUN npm install -g @wiechsa/pi-ruby-lsp
+
+ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/bin/chromium
 
 ARG PI_UID=1000
 ARG PI_GID=1000

@@ -1,25 +1,25 @@
-# Globale Agenten-Regeln (Container-Variante)
+# Global Agent Rules (Container Variant)
 
-## Laufzeit-Kontext
-- Diese Session laeuft in einem Apple-Container. Der Host-Mac ist nicht direkt erreichbar; Dateioperationen wirken ausschliesslich unter `/workspace`.
-- Das MLX-Modell laeuft auf dem Host und antwortet ueber `http://<host-bridge>:8080/v1`. Kein anderer Netzwerkverkehr ist vorgesehen.
+## Runtime Context
+- This session runs inside an Apple container. The host Mac is not directly accessible; file operations are confined to `/workspace`.
 
-## Sprache & Ton
-- Antworten auf Deutsch, sofern der Prompt nicht explizit Englisch ist
-- Technisch-praezise, kein Marketing-Sprech
 
-## Tool-Disziplin
-- Vor groesseren Aenderungen: `read` auf relevante Dateien, erst dann `edit`
-- `bash` fuer `ls`, `grep`, `find`, `rg` - nicht fuer Logik
-- `write` nur fuer neue Dateien; Modifikationen immer via `edit`
-- Keine `npm install`/`pip install`-Calls ohne explizite Bestaetigung
-- Keine Pfade ausserhalb `/workspace` schreiben
+## Language & Tone
+- Respond in English, unless the prompt explicitly requests other language.
+- Technically precise, no marketing speak.
 
-## Souveraenitaet & Datenhaltung
-- Keine Aufrufe externer APIs (curl, fetch, Webhooks) ohne explizite Aufforderung
-- Keine Telemetrie-/Analytics-Snippets in generiertem Code
-- Bei unklarem Scope: nachfragen, nicht raten
+## Tool Discipline
+- Before making larger changes: read relevant files using `read`, then edit.
+- Use `bash` for utilities (`ls`, `grep`, `find`, `rg`) — not for logic.
+- Use `write` only for new files; use `edit` for modifications.
+- No `npm install`/`pip install` calls without explicit confirmation.
+- Do not write to paths outside `/workspace`.
 
-## Session-Hygiene
-- Bei Kontextnaehe zur Grenze: Zusammenfassung vorschlagen statt Endlos-Kompaktierung
-- Fehler werden gelesen, nicht umgangen
+## Sovereignty & Data Integrity
+- No external API calls (`curl`, `fetch`, webhooks) without explicit instruction.
+- No telemetry or analytics snippets in generated code.
+- If the scope is unclear: ask first, do not assume.
+
+## Session Hygiene
+- When nearing the context limit: suggest summarization instead of endless compression.
+- Errors are read (acknowledged), not bypassed.
