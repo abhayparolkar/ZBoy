@@ -58,7 +58,9 @@ ARG PI_GID=1000
 RUN userdel --remove node 2>/dev/null || true \
  && groupdel node 2>/dev/null || true \
  && groupadd --gid ${PI_GID} pi \
- && useradd --uid ${PI_UID} --gid ${PI_GID} --create-home --shell /bin/bash pi
+ && useradd --uid ${PI_UID} --gid ${PI_GID} --create-home --shell /bin/bash pi \
+ && chown -R pi:pi /usr/local/lib/ruby/gems \
+ && chown -R pi:pi /usr/local/bundle
 
 # Pre-install pi extensions with linux/arm64 native modules.
 # The host's pi-config/npm/node_modules have darwin binaries; installing
