@@ -65,7 +65,8 @@ The full step-by-step walkthrough is the article **[`en-pi-apple-container.md`](
 │           └── index.ts            # tool-call guardrail for sensitive paths
 └── scripts/
     ├── build.sh                    # container build
-    └── run.sh                      # container run with the right mounts
+    ├── run.sh                      # container run with the right mounts
+    └── shell.sh                    # interactive shell in the same container environment
 ```
 
 `pi-config/` is mounted into the container at runtime as the agent's config directory.
@@ -101,6 +102,16 @@ PROJECT_DIR=~/projects/your-repo ./scripts/run.sh
 ```
 
 That's it. `run.sh` mounts `pi-config/` → agent config and `$PROJECT_DIR` → `/workspace`. The VM is discarded on exit.
+
+### 4. Shell (optional)
+
+To open an interactive Linux shell in the same container environment (same mounts, resource limits, and `pi` user) without starting the agent:
+
+```bash
+PROJECT_DIR=~/projects/your-repo ./scripts/shell.sh
+```
+
+Useful for debugging, inspecting the filesystem, or running commands manually inside the container.
 
 ## Configuration
 
