@@ -14,7 +14,7 @@ RUN apt-get update \
       iproute2 \
  && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g @mariozechner/pi-coding-agent
+RUN npm install -g @earendil-works/pi-coding-agent
 
 ARG PI_UID=1000
 ARG PI_GID=1000

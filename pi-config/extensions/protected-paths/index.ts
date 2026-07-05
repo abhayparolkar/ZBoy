@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import path from "node:path";
 import os from "node:os";
 
@@ -66,7 +66,7 @@ function bashTouchesProtectedPattern(command: string): {
 
 export default function (pi: ExtensionAPI) {
   pi.on("tool_call", async (event, ctx) => {
-    const { name, input } = event.toolCall;
+    const { toolName: name, input } = event;
 
     if (FILE_TOOLS.has(name)) {
       const target = extractPathFromInput(input);
