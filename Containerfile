@@ -30,6 +30,19 @@ RUN apt-get update \
       curl \
       libpq-dev \
       postgresql-client \
+      dbus \
+      libnss3 \
+      libatk1.0-0 \
+      libatk-bridge2.0-0 \
+      libcups2 \
+      libdrm2 \
+      libxkbcommon0 \
+      libxcomposite1 \
+      libxdamage1 \
+      libxrandr2 \
+      libgbm1 \
+      libpango-1.0-0 \
+      libasound2 \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Ruby 3.4.10 via ruby-build to /usr/local
@@ -49,7 +62,12 @@ RUN npm install -g agent-browser
 # Ruby LSP: enables pi-agent to be Ruby-aware
 RUN npm install -g @wiechsa/pi-ruby-lsp
 
-ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/bin/chromium
+# Chromium wrapper: launches headless with flags required for container use
+RUN printf '#!/bin/sh\nexec /usr/bin/chromium --no-sandbox --disable-gpu --disable-dev-shm-usage --headless=new "$@"\n' \
+      > /usr/local/bin/chromium-wrapper \
+ && chmod +x /usr/local/bin/chromium-wrapper
+
+ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/local/bin/chromium-wrapper
 
 ARG PI_UID=1000
 ARG PI_GID=1000
@@ -60,7 +78,8 @@ RUN userdel --remove node 2>/dev/null || true \
  && groupadd --gid ${PI_GID} pi \
  && useradd --uid ${PI_UID} --gid ${PI_GID} --create-home --shell /bin/bash pi \
  && chown -R pi:pi /usr/local/lib/ruby/gems \
- && chown -R pi:pi /usr/local/bundle
+ && chown -R pi:pi /usr/local/bundle \
+ && mkdir -p /run/dbus && chown pi:pi /run/dbus
 
 # Pre-install pi extensions with linux/arm64 native modules.
 # The host's pi-config/npm/node_modules have darwin binaries; installing

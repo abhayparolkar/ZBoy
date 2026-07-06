@@ -21,6 +21,25 @@ if [ ! -d "$PROJECT_DIR" ]; then
   exit 1
 fi
 
+cat <<'BANNER'
+_\__o__ __o/   o__ __o
+     v    |/  <|     v\
+         /    / \     <\
+       o/     \o/     o/    o__ __o     o      o
+      /v       |__  _<|    /v     v\   <|>    <|>
+     />        |       \  />       <\  < >    < >
+   o/         <o>      /  \         /   \o    o/
+  /v           |      o    o       o     v\  /v
+ />  _\o__/_  / \  __/>    <\__ __/>      <\/>
+                                           /
+                                          o
+                                       __/>
+BANNER
+echo ""
+echo "A sovereign, local coding agent on macOS."
+echo "→ https://github.com/abhayparolkar/ZBoy"
+echo ""
+
 container run \
   --rm \
   --interactive \
