@@ -2,7 +2,7 @@
   <img src="blog-image.jpg" alt="pi coding agent in an Apple Container" width="100%">
 </p>
 
-<h1 align="center">Zboy - A sovereign, local coding agent on macOS.</h1>
+<h1 align="center">ZBoy - A sovereign, local coding agent on macOS.</h1>
 
 <p align="center">
   <strong>A sovereign AI agent capable of running on 16G mac. It is fun! </strong><br>
