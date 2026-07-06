@@ -2,12 +2,14 @@
   <img src="blog-image.jpg" alt="pi coding agent in an Apple Container" width="100%">
 </p>
 
-<h1 align="center">pi-container</h1>
+<h1 align="center">Zboy - A sovereign, local coding agent on macOS.</h1>
 
 <p align="center">
-  <strong>A sovereign, local coding agent on macOS.</strong><br>
+  <strong>A sovereign AI agent capable of running on 16G mac. It is fun! </strong><br>
   The <code>pi</code> coding agent runs in a disposable Apple <code>container</code> micro-VM and talks to a local
   MLX model on the host via <strong>oMLX</strong> — no Node, no npm, no agent binary on your work machine.
+  Built for <strong>Rails 8</strong> applications with integrated browser & messaging support, but capable of building
+  and maintaining <strong>anything</strong>.
 </p>
 
 <p align="center">
