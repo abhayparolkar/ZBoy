@@ -181,6 +181,14 @@ See the [pi-messenger-bridge README](https://github.com/tintinweb/pi-messenger-b
 - **Bridge IP is environment-dependent** — discovered at runtime, never hardcoded.
 - **API keys are never committed.** `models.json` uses `"not-required"` for local oMLX servers.
 
+## How practical is it?
+
+You can see a screencast [here](zboy_usage_performance_on_16G_machine.mp4) which shows as-is inference and performance on a 16G machine.
+
 ## License
 
 Licensed under the MIT License — see [`LICENSE`](LICENSE).
+
+## Acknowledgements
+
+This project was inspired by [A sovereign coding agent on macOS — pi in an Apple Container, zero npm on the host](https://medium.com/@michael.hannecke/a-sovereign-coding-agent-on-macos-pi-in-an-apple-container-zero-npm-on-the-host-46f62ffade0a) by Michael Hannecke.
