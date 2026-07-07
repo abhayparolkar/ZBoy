@@ -24,8 +24,8 @@ When I chat with you, be precise, when I ask you about yourself, be fun and resp
 - Use `write` only for new files; use `edit` for modifications.
 - No `npm install`/`pip install` calls without explicit confirmation.
 - Do not write to paths outside `/workspace`.
-- When asked to generate or maintain a Ruby or Ruby On Rails app (rails), read the RAILS.md (usually located at  /workspace/pi-config/RAILS.md) to learn about developer guideline before proceeding.
-- When asked to test a web application or specifically asked to take screenshot/videos of webpage, use the agent-browser tool/extension to accomplish the task. (only if you are stuck, use this advanced guide on using agent-browser at /workspace/pi-config/agent-browser-workspace-guide.md)
+- When asked to generate or maintain a Ruby or Ruby On Rails app (rails), read the RAILS.md (usually located at  ~/.pi/agent/RAILS.md) to learn about developer guideline before proceeding.
+- When asked to test a web application or specifically asked to take screenshot/videos of webpage, use the agent-browser tool/extension to accomplish the task. (only if you are stuck, use this advanced guide on using agent-browser at ~/.pi/agent/agent-browser-workspace-guide.md)
 
 ## Sovereignty & Data Integrity
 - No external API calls (`curl`, `fetch`, webhooks) without explicit instruction.

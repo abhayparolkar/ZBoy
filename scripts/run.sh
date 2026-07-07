@@ -50,6 +50,8 @@ container run \
   --volume "$REPO_ROOT/pi-config/settings.json:/home/pi/.pi/agent/settings.json" \
   --volume "$REPO_ROOT/pi-config/models.json:/home/pi/.pi/agent/models.json" \
   --volume "$REPO_ROOT/pi-config/AGENTS.md:/home/pi/.pi/agent/AGENTS.md" \
+  --volume "$REPO_ROOT/pi-config/RAILS.md:/home/pi/.pi/agent/RAILS.md" \
+  --volume "$REPO_ROOT/pi-config/agent-browser-workspace-guide.md:/home/pi/.pi/agent/agent-browser-workspace-guide.md" \
   --volume "$REPO_ROOT/pi-config/extensions:/home/pi/.pi/agent/extensions" \
   --volume "$REPO_ROOT/pi-config/bin:/home/pi/.pi/agent/bin" \
   --volume "$REPO_ROOT/pi-config/sessions:/home/pi/.pi/agent/sessions" \
