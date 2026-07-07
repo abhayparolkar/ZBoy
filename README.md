@@ -185,6 +185,8 @@ See the [pi-messenger-bridge README](https://github.com/tintinweb/pi-messenger-b
 
 You can see a screencast [here](zboy_usage_performance_on_16G_machine.mp4) which shows as-is inference and performance on a 16G machine.
 
+You can also watch a demo of a [long-running agent session via Discord](long_running_agent_via_discord.mov), showing remote interaction with the agent through the messenger bridge.
+
 ## License
 
 Licensed under the MIT License — see [`LICENSE`](LICENSE).
