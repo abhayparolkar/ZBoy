@@ -8,3 +8,6 @@
 * Write rspec tests before writing code. Follow test driven development approach.
 * The application must be developed with mindset of 12-factor App.
 * Once the feature is fully built out, use the agent browser tool to test the flow by starting a recording session. Place the recordings and screenshots in /workspace/workfeed' (create if it does not exists)
+
+
+## When asked to create a Rails application from RunwayLite or Inloop Studio's best practices. Use the existing Rails Application template at https://github.com/inloopstudio-team/RunwayLite/archive/refs/heads/master.zip , download it, unzip and rename it to the project name and proceed. Ensure to use .agents dir for the context.

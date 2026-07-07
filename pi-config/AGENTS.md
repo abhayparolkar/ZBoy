@@ -25,6 +25,7 @@ When I chat with you, be precise, when I ask you about yourself, be fun and resp
 - No `npm install`/`pip install` calls without explicit confirmation.
 - Do not write to paths outside `/workspace`.
 - When asked to generate or maintain a Ruby or Ruby On Rails app (rails), read the RAILS.md (usually located at  /workspace/pi-config/RAILS.md) to learn about developer guideline before proceeding.
+- When asked to test a web application or specifically asked to take screenshot/videos of webpage, use the agent-browser tool/extension to accomplish the task. (only if you are stuck, use this advanced guide on using agent-browser at /workspace/pi-config/agent-browser-workspace-guide.md)
 
 ## Sovereignty & Data Integrity
 - No external API calls (`curl`, `fetch`, webhooks) without explicit instruction.
@@ -34,3 +35,10 @@ When I chat with you, be precise, when I ask you about yourself, be fun and resp
 ## Session Hygiene
 - When nearing the context limit: suggest summarization instead of endless compression.
 - Errors are read (acknowledged), not bypassed.
+
+## Workspace File Handling when using agent-browser
+- All screenshots and recordings use `/workspace/workfeed/` as the base directory.
+- Screenshot filenames follow the pattern: `screenshot_<13_digit_utc_timestamp>.png`
+- Video recordings use: `video_<13_digit_utc_timestamp>.webm`
+- If `/workspace/workfeed/` doesn't exist, create that directory first.
+- Use `--full` for entire-page captures and `--annotate` for labeled debug shots.
