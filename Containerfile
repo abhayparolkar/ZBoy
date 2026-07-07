@@ -31,6 +31,7 @@ RUN apt-get update \
       libpq-dev \
       postgresql-client \
       dbus \
+      gosu \
       libnss3 \
       libatk1.0-0 \
       libatk-bridge2.0-0 \
@@ -63,9 +64,15 @@ RUN npm install -g agent-browser
 RUN npm install -g @wiechsa/pi-ruby-lsp
 
 # Chromium wrapper: launches headless with flags required for container use
-RUN printf '#!/bin/sh\nexec /usr/bin/chromium --no-sandbox --disable-gpu --disable-dev-shm-usage --headless=new "$@"\n' \
+RUN printf '#!/bin/sh\nexec /usr/bin/chromium --no-sandbox --disable-gpu --disable-dev-shm-usage --no-zygote --headless=new "$@"\n' \
       > /usr/local/bin/chromium-wrapper \
  && chmod +x /usr/local/bin/chromium-wrapper
+
+# Entrypoint: starts D-Bus system daemon (required by Chromium) as root,
+# then drops privileges to the pi user before exec-ing pi.
+RUN printf '#!/bin/sh\nset -e\nmkdir -p /run/dbus\ndbus-daemon --system --fork 2>/dev/null || true\nexec gosu pi pi "$@"\n' \
+      > /usr/local/bin/container-entrypoint \
+ && chmod +x /usr/local/bin/container-entrypoint
 
 ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/local/bin/chromium-wrapper
 
@@ -88,8 +95,9 @@ COPY pi-config/npm/package.json /home/pi/.pi/agent/npm/package.json
 RUN cd /home/pi/.pi/agent/npm && npm install --omit=dev \
  && chown -R pi:pi /home/pi/.pi
 
-USER pi
 WORKDIR /workspace
 
 # pi reads ~/.pi/agent/* at runtime; the directory is mounted via a volume.
-ENTRYPOINT ["pi"]
+# Container starts as root (so dbus-daemon can be launched), then the
+# entrypoint drops to the pi user via gosu.
+ENTRYPOINT ["container-entrypoint"]
