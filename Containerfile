@@ -44,6 +44,7 @@ RUN apt-get update \
       libgbm1 \
       libpango-1.0-0 \
       libasound2 \
+      libglib2.0-0 \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Ruby 3.4.10 via ruby-build to /usr/local
@@ -57,24 +58,34 @@ RUN gem install rails pg
 
 RUN npm install -g @earendil-works/pi-coding-agent
 
-# Browser agent: agent-browser CLI + system Chromium (no Chrome-for-Testing on ARM64)
+# Browser agent: agent-browser CLI
 RUN npm install -g agent-browser
+
+# Chromium for headless browser automation.
+# System Chromium 150 (Debian bookworm) SIGTRAPs on aarch64 in Apple containers.
+# Playwright's Chromium 149 build works correctly. We install it and symlink
+# so agent-browser can use it.
+RUN npm install -g playwright \
+ && PLAYWRIGHT_BROWSERS_PATH=/usr/local/share/playwright npx playwright install chromium \
+ && ln -sf /usr/local/share/playwright/chromium-*/chrome-linux/chrome /usr/local/bin/chromium-playwright \
+ && chmod +x /usr/local/bin/chromium-playwright
+
+# Chromium wrapper: uses Playwright's Chromium with container-safe flags.
+RUN printf '#!/bin/sh\nexec /usr/local/bin/chromium-playwright --no-sandbox --disable-gpu --disable-dev-shm-usage --headless=new "$@"\n' \
+      > /usr/local/bin/chromium-wrapper \
+ && chmod +x /usr/local/bin/chromium-wrapper
 
 # Ruby LSP: enables pi-agent to be Ruby-aware
 RUN npm install -g @wiechsa/pi-ruby-lsp
 
-# Chromium wrapper: launches headless with flags required for container use
-RUN printf '#!/bin/sh\nexec /usr/bin/chromium --no-sandbox --disable-gpu --disable-dev-shm-usage --no-zygote --headless=new "$@"\n' \
-      > /usr/local/bin/chromium-wrapper \
- && chmod +x /usr/local/bin/chromium-wrapper
-
-# Entrypoint: starts D-Bus system daemon (required by Chromium) as root,
+# Entrypoint: starts D-Bus system + session daemons (required by Chromium) as root,
 # then drops privileges to the pi user before exec-ing pi.
-RUN printf '#!/bin/sh\nset -e\nmkdir -p /run/dbus\ndbus-daemon --system --fork 2>/dev/null || true\nexec gosu pi pi "$@"\n' \
+RUN printf '#!/bin/sh\nset -e\nmkdir -p /run/dbus\ndbus-daemon --system --fork 2>/dev/null || true\nexport DBUS_SESSION_BUS_ADDRESS=$(dbus-daemon --session --fork --print-address=1 2>/dev/null) || true\nexec gosu pi pi "$@"\n' \
       > /usr/local/bin/container-entrypoint \
  && chmod +x /usr/local/bin/container-entrypoint
 
-ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/local/bin/chromium-wrapper
+ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/local/bin/chromium-wrapper \
+    PLAYWRIGHT_BROWSERS_PATH=/usr/local/share/playwright
 
 ARG PI_UID=1000
 ARG PI_GID=1000

@@ -46,6 +46,7 @@ container run \
   --tty \
   --cpus 2 \
   --memory 4G \
+  --shm-size 1g \
   --volume "$REPO_ROOT/pi-config/settings.json:/home/pi/.pi/agent/settings.json" \
   --volume "$REPO_ROOT/pi-config/models.json:/home/pi/.pi/agent/models.json" \
   --volume "$REPO_ROOT/pi-config/AGENTS.md:/home/pi/.pi/agent/AGENTS.md" \
