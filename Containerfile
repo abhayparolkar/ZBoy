@@ -78,7 +78,6 @@ RUN userdel --remove node 2>/dev/null || true \
  && groupadd --gid ${PI_GID} pi \
  && useradd --uid ${PI_UID} --gid ${PI_GID} --create-home --shell /bin/bash pi \
  && chown -R pi:pi /usr/local/lib/ruby/gems \
- && chown -R pi:pi /usr/local/bundle \
  && mkdir -p /run/dbus && chown pi:pi /run/dbus
 
 # Pre-install pi extensions with linux/arm64 native modules.
